@@ -12,7 +12,7 @@ public class Player extends Actor{
 	private Vector position;
 	private final double SIZE = 0.6;
 	private boolean colliding;
-	private int zoom = 7 ;
+	private int zoom = 6 ;
 	private double health;
 	private final double MAX_HEALTH = 10;
 	
@@ -62,7 +62,7 @@ public class Player extends Actor{
 			velocity = velocity.mul(scale);
 			}
 		
-		double maxSpeed = 3.0 ;
+		double maxSpeed = 4.0 ;
 		// DROITE
 		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()) {
 			if (velocity.getX() < maxSpeed) {
@@ -76,8 +76,8 @@ public class Player extends Actor{
 		// GAUCHE
 		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
 			if (velocity.getX() > -maxSpeed) {
-				double decrease = -1 * 60.0 * input.getDeltaTime() ;
-				double speed = velocity.getX() + decrease ;
+				double increase = -60.0 * input.getDeltaTime() ;
+				double speed = velocity.getX() + increase ;
 				if (speed < -maxSpeed)
 					speed = -maxSpeed ;
 				velocity = new Vector(speed , velocity.getY()) ;
@@ -95,13 +95,17 @@ public class Player extends Actor{
 		velocity = velocity.add(acceleration.mul(delta)) ;
 		position = position.add(velocity.mul(delta)) ;
 		
-		// TIRER FIREBALL/CANARD
+		// TIRER FIREBALL / CANARD
 		Vector v = velocity.add(velocity.resized(2.0));
 		if (input.getKeyboardButton(KeyEvent.VK_SPACE).isPressed()) {
 			getWorld().register(new Fireball(position,v,this));
 		}
-		if (input.getKeyboardButton(KeyEvent.VK_CONTROL).isPressed()) {
-			getWorld().register(new Fireball(position,v,"spam",this));
+		/*if (input.getKeyboardButton(KeyEvent.VK_CONTROL).isPressed()) {
+			getWorld().register(new Fireball(position,v,"duck",this));
+		}*/
+		Vector w = ((input.getMouseLocation()).sub(position)).resized(10.0);
+		if (input.getMouseButton(1).isPressed()) {
+			getWorld().register(new Fireball(position,w,"spam",this));
 		}
 		
 		// ZOOMIN / ZOOMOUT
@@ -122,6 +126,13 @@ public class Player extends Actor{
 		// SOUFFLER
 		if (input.getKeyboardButton(KeyEvent.VK_B).isPressed())
 			getWorld().hurt(getBox(), this , Damage.AIR, 1.0, getPosition());
+		
+		// DEVENIR SAD
+		final double threshold = 2.0;
+		if (health <= threshold)
+			sprite = getSprite("blocker.sad");
+		else
+			sprite = getSprite("blocker.happy");
 		
 		// MOURRIR
 		if (health <= 0)
@@ -153,9 +164,6 @@ public class Player extends Actor{
 					velocity = new Vector(velocity.getX(), 0.0) ;
 			}
 		}
-		
-		
-		
 	}
 	
 	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {

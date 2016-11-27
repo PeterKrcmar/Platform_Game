@@ -7,17 +7,21 @@ import platform.util.Vector;
 
 public class Heart extends Actor{
 	private double cooldown = 0.0;
-	private final double SIZE = 0.4;
+	private double size = 0.4;
+	private double variation = 0.0;
 	
 	public Heart(double x, double y) {
-		zone = new Box(new Vector(x,y),SIZE,SIZE);
+		zone = new Box(new Vector(x,y),size,size);
 		sprite = getSprite("heart.full");
 		priority = 50;
 	}
 	
 	public void update(Input input) {
 		super.update(input) ;
-		cooldown -= input.getDeltaTime() ;
+		cooldown -= input.getDeltaTime();
+		variation -= input.getDeltaTime();
+		if (variation < 0.0)
+			variation = 0.4 ;
 	}
 	
 	public void interact(Actor other) {
@@ -29,8 +33,12 @@ public class Heart extends Actor{
 	}
 	
 	public void draw(Input input, Output output) {
+		if (variation < 0.2)
+			size = 0.4;
+		else
+			size = 0.43;
 		if (cooldown <= 0.0)
-			output.drawSprite(sprite, zone);
+		output.drawSprite(sprite, new Box(getPosition(),size,size));
 	}
 	
 	public Box getBox() {

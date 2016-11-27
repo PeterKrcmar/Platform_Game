@@ -24,7 +24,7 @@ public class Torch extends Actor{
 		super.update(input);
 		variation -= input.getDeltaTime();
 		if (variation < 0.0)
-		variation = 0.6 ;
+			variation = 0.6 ;
 	}
 	
 	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {

@@ -35,16 +35,17 @@ public class Fireball extends Actor {
 	
 	// EVOLUTION
 	public void update(Input input) {
-	super.update(input) ;
-	double delta = input.getDeltaTime() ;
-	Vector acceleration = getWorld().getGravity();
-	velocity = velocity.add(acceleration.mul(delta)) ;
-	position = position.add(velocity.mul(delta)) ;
+		super.update(input);
+		double delta = input.getDeltaTime();
+		Vector acceleration = getWorld().getGravity();
+		velocity = velocity.add(acceleration.mul(delta));
+		position = position.add(velocity.mul(delta));
+		System.out.println(velocity);
 	}
 	
 	// AFFICHAGE
-	public void draw(Input input , Output output) {
-		output.drawSprite(sprite , getBox(), input.getTime()) ;
+	public void draw(Input input, Output output) {
+		output.drawSprite(sprite, getBox(), input.getTime());
 	}
 		
 	// INTERACTION

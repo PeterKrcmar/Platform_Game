@@ -106,7 +106,7 @@ public class SwingDisplay implements Display, KeyListener, MouseListener, MouseW
         frame.setBackground(Color.BLACK);
         frame.add(canvas);
         frame.pack();
-        frame.setSize(1024, 768);
+        frame.setSize(1800, 1024);
         frame.setVisible(true);
         
         // Add window manager

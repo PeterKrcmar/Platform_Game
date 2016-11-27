@@ -56,7 +56,7 @@ public class Simulator implements World {
 			a.preUpdate(input);
 		
 		// transition fluide de la vue
-		double factor = 0.01 ;
+		double factor = 0.05 ;
 		currentCenter = currentCenter.mul(1.0 - factor).add(expectedCenter.mul(factor)) ;
 		currentRadius = currentRadius * (1.0 - factor) + expectedRadius * factor ;
 		

@@ -49,11 +49,11 @@ public abstract class Actor implements Comparable<Actor> {
 	// WORLD
 	public void register(World world) {
 		this.world = world ;
-		}
+	}
 	
 	public void unregister() {
 		world = null ;
-		}
+	}
 	
 	protected World getWorld() {
 		return world;
