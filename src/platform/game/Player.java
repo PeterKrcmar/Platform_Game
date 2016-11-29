@@ -15,6 +15,10 @@ public class Player extends Actor{
 	private int zoom = 6 ;
 	private double health;
 	private final double MAX_HEALTH = 10;
+	private int sautPossible = 1;
+	private int leftPossible = 1;
+	private int rightPossible = 1;
+	
 	
 	public Player(Vector position) {
 		if (position == null)
@@ -66,29 +70,57 @@ public class Player extends Actor{
 		// DROITE
 		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()) {
 			if (velocity.getX() < maxSpeed) {
-				double increase = 60.0 * input.getDeltaTime() ;
-				double speed = velocity.getX() + increase ;
+				double increase = rightPossible*60.0 * input.getDeltaTime() ;
+				double speed = rightPossible*velocity.getX() + increase ;
 				if (speed > maxSpeed)
 					speed = maxSpeed ;
-				velocity = new Vector(speed , velocity.getY()) ;
+				velocity = new Vector(speed*rightPossible , velocity.getY()) ;
+				System.out.println("droite "+rightPossible);
 			}
 		} else
 		// GAUCHE
 		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
 			if (velocity.getX() > -maxSpeed) {
-				double increase = -60.0 * input.getDeltaTime() ;
-				double speed = velocity.getX() + increase ;
+				double increase = leftPossible*-60.0 * input.getDeltaTime() ;
+				double speed = leftPossible*velocity.getX() + increase ;
 				if (speed < -maxSpeed)
 					speed = -maxSpeed ;
-				velocity = new Vector(speed , velocity.getY()) ;
+				velocity = new Vector(speed*leftPossible , velocity.getY()) ;
+				System.out.println("gauche "+leftPossible);
 			}
 		} else {
 			velocity = new Vector(0, velocity.getY());
 		}
 		// SAUT
-		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && colliding && velocity.getY() == 0) {
-				velocity = new Vector(velocity.getX(), 7.0) ;
+		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && sautPossible == 1) {
+				velocity = new Vector(velocity.getX(), 7.0);
+				sautPossible = 0;
+		}else if (sautPossible == 0 && colliding && velocity.getY() == 0){
+					sautPossible = 1;
 		}
+		
+		//walljump
+		if (sautPossible == 0 && colliding && velocity.getY() < 0 && input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()){
+			velocity = new Vector(-15,5);
+			//rightPossible = 0;
+			//leftPossible = 1;
+		}else if (sautPossible == 0 && colliding && velocity.getY() < 0 && input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()){
+			velocity = new Vector(15,5);
+			//leftPossible = 0;
+			//rightPossible = 1;
+		}
+		
+		/*if (colliding){
+			leftPossible = 1;
+			rightPossible = 1;
+		}*/
+		
+		
+		
+		
+		/*if (sautPossible == 0 && colliding && velocity.getY() < 0){
+			sautPossible = 1;
+		}*/
 		
 		double delta = input.getDeltaTime() ;
 		Vector acceleration = getWorld().getGravity();
@@ -103,7 +135,7 @@ public class Player extends Actor{
 		/*if (input.getKeyboardButton(KeyEvent.VK_CONTROL).isPressed()) {
 			getWorld().register(new Fireball(position,v,"duck",this));
 		}*/
-		Vector w = ((input.getMouseLocation()).sub(position)).resized(10.0);
+		Vector w = ((input.getMouseLocation()).sub(position)).resized(20.0);
 		if (input.getMouseButton(1).isPressed()) {
 			getWorld().register(new Fireball(position,w,"spam",this));
 		}

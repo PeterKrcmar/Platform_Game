@@ -33,14 +33,13 @@ public class Fireball extends Actor {
 		priority = 80;
 	}
 	
-	// EVOLUTION
+	// EVOLUTION	
 	public void update(Input input) {
 		super.update(input);
 		double delta = input.getDeltaTime();
 		Vector acceleration = getWorld().getGravity();
 		velocity = velocity.add(acceleration.mul(delta));
 		position = position.add(velocity.mul(delta));
-		System.out.println(velocity);
 	}
 	
 	// AFFICHAGE

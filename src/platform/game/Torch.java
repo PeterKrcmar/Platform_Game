@@ -5,7 +5,7 @@ import platform.util.Input;
 import platform.util.Output;
 import platform.util.Vector;
 
-public class Torch extends Actor{
+public class Torch extends Actor implements Signal{
 	private boolean lit;
 	private double variation = 0.0;
 	private final double SIZE = 0.8;
@@ -53,6 +53,10 @@ public class Torch extends Actor{
 			else
 				sprite = getSprite("torch.lit.1");
 		output.drawSprite(sprite, zone);
+	}
+	
+	public boolean isActive() {
+		return lit;
 	}
 
 }
