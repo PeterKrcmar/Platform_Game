@@ -51,11 +51,14 @@ public class Fireball extends Actor {
 	public void interact(Actor other) {
 		super.interact(other);
 		if (other.isSolid()) {
-			Vector delta = other.getBox().getCollision(position);
+			if (other.getBox().isColliding(getBox()))
+			getWorld().unregister(this);
+		// REBONDIR
+		/*	Vector delta = other.getBox().getCollision(position);
 		if (delta != null) {
 			position = position.add(delta);
 			velocity = velocity.mirrored(delta);
-			}
+			}*/
 		}
 		
 		if (other.getBox().isColliding(getBox()) && other != owner) {

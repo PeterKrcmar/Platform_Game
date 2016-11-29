@@ -27,7 +27,7 @@ public class Heart extends Actor{
 	public void interact(Actor other) {
 		super.interact(other) ;
 		if (cooldown <= 0 && getBox().isColliding(other.getBox())) {
-			if (other.hurt(this , Damage.HEAL, 1.0, Vector.ZERO))
+			if (other.hurt(this , Damage.HEAL, 2.0, Vector.ZERO))
 				cooldown = 10.0 ;
 		}
 	}

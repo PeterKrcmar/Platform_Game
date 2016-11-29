@@ -13,19 +13,28 @@ public class Door extends Block{
 		this.signal = signal;
 	}
 	
-	public void update(Input input) {
-		if (signal.isActive())
-			getWorld().unregister(this);
-	}
-	
 	public Door(Box zone, String color, Signal signal) {
-		super(zone,"door." + color);
+		super(zone,"lock." + color);
 		this.signal = signal;
 	}
 	
+	public Door(int x, int y, String color, Signal signal) {
+		super(x,y,1,1,"lock." + color);
+		this.signal = signal;
+	}
+	
+	public void update(Input input) {
+		if (signal.isActive())
+			priority = 50;
+	}
+	
 	public void draw(Input input, Output output) {
-		if (!signal.isActive())
 			output.drawSprite(sprite, zone);
+	}
+	
+	public void interact(Actor other) {
+		if (other.getPriority() == 42 && other.getBox().isColliding(getBox()))
+				getWorld().unregister(this);
 	}
 	
 	public Box getBox() {

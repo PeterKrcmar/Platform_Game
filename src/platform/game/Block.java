@@ -22,6 +22,12 @@ public class Block extends Actor {
 		priority = 0;
 	}
 	
+	public Block(double x, double y, double width, double height, String name) {
+		zone = new Box(new Vector(x,y),width,height);
+		sprite = getSprite(name);
+		priority = 0;
+	}
+	
 	// pour évoluer au cours du temps :
 	public void update(Input input) {}
 	
