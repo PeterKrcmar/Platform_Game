@@ -37,6 +37,6 @@ private double fadein;
     
     /** @return a new instance of default level */
     public static Level createDefaultLevel() {
-        return new BasicLevel();
+        return new Menu();
     }
 }

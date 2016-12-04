@@ -20,6 +20,7 @@ public class Exit extends Actor{
 			sprite = getSprite("door.open");
 		else
 			sprite = getSprite("door.closed");
+		priority = 0;
 	}
 	
 	public void update(Input input) {

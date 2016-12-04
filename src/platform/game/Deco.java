@@ -7,8 +7,8 @@ import platform.util.Vector;
 
 public class Deco extends Actor{
 	
-	public Deco(double x,double y,String name) {
-		zone = new Box(new Vector(x,y),1,3);
+	public Deco(double x,double y, double width, double height, String name) {
+		zone = new Box(new Vector(x,y),width,height);
 		sprite = getSprite("deco/" + name);
 		priority = 101;
 	}

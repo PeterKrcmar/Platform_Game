@@ -13,14 +13,36 @@ public class Mover extends Block{
 	private double width;
 	private Vector current;
 	private Vector velocity;
+	private double velocityFactor = 1.0;
 	
 	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal) {
 		super(new Box(min,width,height),name);
 		this.height = height;
 		this.width = width;
 		this.signal = signal;
-		this.min = min;
-		this.max = max;
+		if (max.getLength() < min.getLength()) {
+			this.min = max;
+			this.max = min;
+		} else {
+			this.min = min;
+			this.max = max;
+		}
+		current = min;
+	}
+	
+	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal, double velocityFactor) {
+		super(new Box(min,width,height),name);
+		this.height = height;
+		this.width = width;
+		this.signal = signal;
+		this.velocityFactor = velocityFactor;
+		if (max.getLength() < min.getLength()) {
+			this.min = max;
+			this.max = min;
+		} else {
+			this.min = min;
+			this.max = max;
+		}
 		current = min;
 	}
 	
@@ -29,12 +51,12 @@ public class Mover extends Block{
 		double delta = input.getDeltaTime();
 		if (signal.isActive()) {
 			if ((current.getLength() < max.getLength()) && i){
-				velocity = (max.sub(min)).resized(1.0);
+				velocity = (max.sub(min)).resized(velocityFactor);
 				current = current.add(velocity.mul(delta));}
 			else if (current.getLength() > min.getLength()){
 				if (current.getLength() > max.getLength())
 					i = false;
-				velocity = (max.sub(min)).resized(1.0);
+				velocity = (max.sub(min)).resized(velocityFactor);
 				current = current.sub(velocity.mul(delta));
 				if (current.getLength() < min.getLength())
 					i = true;
@@ -51,5 +73,9 @@ public class Mover extends Block{
 	
 	public Box getBox() {
 		return zone;
+	}
+	
+	public Vector getVelocity() {
+		return velocity;
 	}
 }

@@ -34,6 +34,9 @@ public class Torch extends Actor implements Signal{
 			sprite = getSprite("torch");
 			return true;
 		case FIRE :
+			if (!lit){
+				getWorld().unregister(instigator);
+			}
 			lit = true;
 			sprite = getSprite("torch.lit.1");
 			return true;

@@ -7,16 +7,18 @@ import platform.util.Vector;
 
 public class Spike extends Actor{
 	private final double SIZE = 0.8;
+	private double width;
 	private double cooldown = 0;
+	private double x;
+	private double y;
 	
-	public Spike (Vector lowerCorner, Vector upperCorner) {
-		zone = new Box(lowerCorner, upperCorner);
-		sprite = getSprite("spikes");
-		priority = 50;
-	}
-	
-	public Spike (double x, double y) {
-		zone = new Box(new Vector(x,y),SIZE,SIZE);
+	public Spike (double x, double y, double width) {
+		if (width == 0.0)
+			throw new NullPointerException();
+		zone = new Box(new Vector(x+(width-1)/2,y),width,SIZE);
+		this.width = width;
+		this.x = x;
+		this.y = y;
 		sprite = getSprite("spikes");
 		priority = 50;
 	}
@@ -36,7 +38,9 @@ public class Spike extends Actor{
 	}
 	
 	public void draw(Input input, Output output) {
-		output.drawSprite(sprite, zone);
+		for (int i = 0; i < width; i++) {
+			output.drawSprite(sprite, new Box(new Vector(i+x,y),1,SIZE));
+		}
 	}
 	
 	public Box getBox() {

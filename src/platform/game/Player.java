@@ -12,12 +12,11 @@ public class Player extends Actor{
 	private Vector position;
 	private double size = 0.6;
 	private boolean colliding;
-	private int zoom = 6 ;
+	private int zoom = 6;
 	private double health;
 	private final double MAX_HEALTH = 10;
 	private int sautPossible = 1;
-	private int leftPossible = 1;
-	private int rightPossible = 1;
+	private double cooldownSaut = 0.01;
 	
 	
 	public Player(Vector position) {
@@ -26,7 +25,6 @@ public class Player extends Actor{
 		this.position = position;
 		velocity = Vector.ZERO;
 		zone = getBox();
-		sprite = getSprite("blocker.happy");
 		priority = 42;
 		health = MAX_HEALTH;
 	}
@@ -56,19 +54,49 @@ public class Player extends Actor{
     	colliding = false;
     }
 	
+	// INTERRACTION
+		public void interact(Actor other) {
+			super.interact(other) ;
+			
+		/*	// RESTER SUR MOVER
+			if (getBox().isColliding(other.getBox()) && other.isSolid() && other.getVelocity() != null) {
+				velocity = other.getVelocity();
+			}*/
+			
+			if (other.isSolid()) {
+				Vector delta = other.getBox().getCollision(getBox()) ;
+				if (delta != null) {
+					colliding = true;
+					position = position.add(delta) ;
+					if (delta.getX() != 0.0)
+						velocity = new Vector(0.0, velocity.getY()) ;
+					if (delta.getY() != 0.0)
+						velocity = new Vector(velocity.getX(), 0.0) ;
+				}
+			}
+		}
+	
 	// EVOLUTION
 	public void update(Input input) {
 		super.update(input) ;
+		
+		// DEVENIR SAD
+				final double threshold = 2.0;
+				if (health <= threshold)
+					sprite = getSprite("blocker.sad");
+				else
+					sprite = getSprite("blocker.happy");
 	
-	// ARRET SI COLLISION
+		// ARRET SI COLLISION
 		if (colliding && velocity.getX() != 0) {
 			double scale = Math.pow(0.001, input.getDeltaTime());
 			velocity = velocity.mul(scale);
-			}
+		}
 		
 		double maxSpeed = 4.0 ;
 		// DROITE
 		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()) {
+			sprite = getSprite("blocker.happy.right");
 			if (velocity.getX() < maxSpeed) {
 				double increase = 60.0 * input.getDeltaTime() ;
 				double speed = velocity.getX() + increase ;
@@ -79,6 +107,7 @@ public class Player extends Actor{
 		} else
 		// GAUCHE
 		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
+			sprite = getSprite("blocker.happy.left");
 			if (velocity.getX() > -maxSpeed) {
 				double increase = -60.0 * input.getDeltaTime() ;
 				double speed = velocity.getX() + increase ;
@@ -93,9 +122,14 @@ public class Player extends Actor{
 		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && sautPossible == 1) {
 				velocity = new Vector(velocity.getX(), 7.0);
 				sautPossible = 0;
-		}else if (sautPossible == 0 && colliding && velocity.getY() == 0){
+		} else if (sautPossible == 0 && colliding && velocity.getY() == 0 && cooldownSaut < 0){
 					sautPossible = 1;
 		}
+		
+		if (colliding)
+			cooldownSaut -= input.getDeltaTime();
+		else
+			cooldownSaut = 0.01;
 		
 		// WALLJUMP
 		if (sautPossible == 0 && colliding && velocity.getY() < 0 && input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()){
@@ -108,31 +142,29 @@ public class Player extends Actor{
 		if (input.getKeyboardButton(KeyEvent.VK_DOWN).isDown())
 			size = 0.3;
 		else
-			size = 0.5;
+			size = 0.6;
 		
 		double delta = input.getDeltaTime() ;
 		Vector acceleration = getWorld().getGravity();
 		velocity = velocity.add(acceleration.mul(delta)) ;
 		position = position.add(velocity.mul(delta)) ;
 		
-		// TIRER FIREBALL / CANARD
+		// TIRER FIREBALL / BOULE DE NEIGE
 		Vector v = velocity.add(velocity.resized(2.0));
 		if (input.getKeyboardButton(KeyEvent.VK_SPACE).isPressed()) {
 			getWorld().register(new Fireball(position,v,this));
 		}
-		/*if (input.getKeyboardButton(KeyEvent.VK_CONTROL).isPressed()) {
-			getWorld().register(new Fireball(position,v,"duck",this));
-		}*/
-		Vector w = ((input.getMouseLocation()).sub(position)).resized(20.0);
+		
+		Vector w = ((input.getMouseLocation()).sub(position)).resized(10.0);
 		if (input.getMouseButton(1).isPressed()) {
-			getWorld().register(new Fireball(position,w,"duck",this));
+			getWorld().register(new Fireball(position,w,"snowball",this));
 		}
 		
 		// ZOOMIN / ZOOMOUT
-		final int MAX_ZOOMOUT = 20;
+		final int MAX_ZOOMOUT = 15;
 		final int ZOOM_DEFAULT = 6;
 		if (input.getKeyboardButton(KeyEvent.VK_1).isDown()) {
-			zoom = 1;
+			zoom = 2;
 		}
 		else if (input.getKeyboardButton(KeyEvent.VK_2).isDown()) {
 			zoom = MAX_ZOOMOUT;
@@ -147,16 +179,9 @@ public class Player extends Actor{
 		if (input.getKeyboardButton(KeyEvent.VK_B).isPressed())
 			getWorld().hurt(getBox(), this , Damage.AIR, 1.0, getPosition());
 		
-		// ACTIVER LEVIER
+		// ACTIVER LEVIER / PORTE
 		if (input.getKeyboardButton(KeyEvent.VK_E).isPressed())
 			getWorld().hurt(getBox(), this , Damage.ACTIVATION, 1.0, getPosition());
-		
-		// DEVENIR SAD
-		final double threshold = 2.0;
-		if (health <= threshold)
-			sprite = getSprite("blocker.sad");
-		else
-			sprite = getSprite("blocker.happy");
 		
 		// MOURRIR
 		if (health <= 0)
@@ -171,23 +196,8 @@ public class Player extends Actor{
 		
 	// AFFICHAGE
 	public void draw(Input input , Output output) {
-		output.drawSprite(sprite , getBox()) ;
-	}
-	
-	// INTERRACTION
-	public void interact(Actor other) {
-		super.interact(other) ;
-		if (other.isSolid()) {
-			Vector delta = other.getBox().getCollision(getBox()) ;
-			if (delta != null) {
-				colliding = true;
-				position = position.add(delta) ;
-				if (delta.getX() != 0.0)
-					velocity = new Vector(0.0, velocity.getY()) ;
-				if (delta.getY() != 0.0)
-					velocity = new Vector(velocity.getX(), 0.0) ;
-			}
-		}
+		double ghost = (health/MAX_HEALTH)+0.1;
+		output.drawSprite(sprite , getBox(),0,ghost);
 	}
 	
 	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {

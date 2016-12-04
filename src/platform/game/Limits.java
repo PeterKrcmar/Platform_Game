@@ -8,8 +8,8 @@ import platform.util.Vector;
 
 public class Limits extends Actor {
 	
-	public Limits (int height, int width) {
-		zone = new Box(Vector.ZERO,width,height);
+	public Limits (int width, int height) {
+		zone = new Box(Vector.ZERO, new Vector(width,height));
 		sprite = getSprite("empty");
 		priority = 100;
 	}

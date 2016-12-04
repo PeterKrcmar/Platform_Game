@@ -10,6 +10,7 @@ public class Fireball extends Actor {
 	private Vector velocity;
 	private final double SIZE = 0.4;
 	private Actor owner;
+	private double cooldown = 3.7;
 	
 	public Fireball(Vector position, Vector velocity, Actor owner) {
 		if (position == null || velocity == null)
@@ -40,6 +41,11 @@ public class Fireball extends Actor {
 		Vector acceleration = getWorld().getGravity();
 		velocity = velocity.add(acceleration.mul(delta));
 		position = position.add(velocity.mul(delta));
+		
+		cooldown -= input.getDeltaTime();
+		if (cooldown < 0){
+			getWorld().unregister(this);
+		}
 	}
 	
 	// AFFICHAGE
@@ -51,19 +57,17 @@ public class Fireball extends Actor {
 	public void interact(Actor other) {
 		super.interact(other);
 		if (other.isSolid()) {
-			if (other.getBox().isColliding(getBox()))
-			getWorld().unregister(this);
+			
 		// REBONDIR
-		/*	Vector delta = other.getBox().getCollision(position);
+		Vector delta = other.getBox().getCollision(position);
 		if (delta != null) {
 			position = position.add(delta);
 			velocity = velocity.mirrored(delta);
-			}*/
+			}
 		}
 		
 		if (other.getBox().isColliding(getBox()) && other != owner) {
-			if (other.hurt(this , Damage.FIRE, 1.0, getPosition()))
-				getWorld().unregister(this);
+			other.hurt(this , Damage.FIRE, 1.0, getPosition());
 		}
 	}
 	
