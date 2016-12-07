@@ -8,7 +8,6 @@ import platform.util.Vector;
 public class Background extends Deco {
 	
 	public Background(double x,double y, double width, double height, String name) {
-		super(x,y,width,height,name);
-		priority = -1;
+		super(x,y,width,height,name,-1);
 	}
 }

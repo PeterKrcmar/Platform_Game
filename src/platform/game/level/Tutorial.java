@@ -14,8 +14,6 @@ public class Tutorial extends Level {
         world.setNextLevel(new Tutorial());
         
         // Background
-        world.register(new Background(6,6,0.5,0.5,"UP"));
-        world.register(new Background(37,5,0.5,0.5,"DOWN"));
         
         // Create terrain
         world.register(new Limits(50,50));
@@ -71,13 +69,24 @@ public class Tutorial extends Level {
         world.register(new Mover(new Vector(33,4), 3, 1, new Vector(26,4), "stone.2", lever));
         world.register(new Exit(15,14,new Menu(),new Constant()));
         
+        // Tutorials
+        world.register(new Background(6,6,3,0.5,"tuto_01"));
+        world.register(new Background(13.5,8,4.5,0.6,"tuto_02"));
+        world.register(new Background(17.5,8.05,2.5,0.4,"tuto_03"));
+        world.register(new Background(23.5,5.5,4,0.5,"tuto_04"));
+        world.register(new Background(36,6,3,0.4,"tuto_05"));
+        world.register(new Background(36,13,3,0.5,"tuto_06"));
+        world.register(new Background(32,13.5,2.5,0.4,"tuto_07"));
+        world.register(new Background(26,14.5,2,0.5,"tuto_08"));
+        world.register(new Background(15.5,15,3.5,0.4,"tuto_09"));
+        
         // Deco
-        world.register(new Deco(0,6.4,1,2,"foliagePack_030"));
+        world.register(new Deco(0,6.4,1,2,"foliagePack_030",-1));
         world.register(new Deco(0.6,6.3,0.8,1.8,"foliagePack_030"));
         
         world.register(new Deco(45.5,16.4,1,2,"foliagePack_030"));
-        world.register(new Deco(46.5,16.3,0.8,1.8,"foliagePack_030"));
-        world.register(new Deco(47,16.5,1.2,2.2,"foliagePack_030"));
+        world.register(new Deco(46.5,16.3,0.8,1.8,"foliagePack_030",-1));
+        world.register(new Deco(47,16.5,1.2,2.2,"foliagePack_030",-1));
         
     }
     

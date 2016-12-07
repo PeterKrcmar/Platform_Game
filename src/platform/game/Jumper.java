@@ -40,7 +40,7 @@ public class Jumper extends Actor{
 	}
 	
 	public Box getBox() {
-		return zone;
+		return new Box(position, SIZE, SIZE-SIZE*0.9);
 	}
 	
 }

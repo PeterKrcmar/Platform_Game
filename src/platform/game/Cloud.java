@@ -16,6 +16,6 @@ public class Cloud extends Mover{
 	}
 	
 	public void draw(Input input, Output output) {
-		output.drawSprite(sprite, zone, 0, 0.5);
+		output.drawSprite(sprite, zone, 0, 0.7);
 	}
 }

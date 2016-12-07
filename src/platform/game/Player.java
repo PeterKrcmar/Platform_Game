@@ -2,6 +2,7 @@ package platform.game;
 
 import java.awt.event.KeyEvent;
 
+import platform.game.level.Menu;
 import platform.util.Box;
 import platform.util.Input;
 import platform.util.Output;
@@ -172,6 +173,12 @@ public class Player extends Actor{
 
 		// REPLACER AU DEBUT DU NIVEAU
 		if (input.getKeyboardButton(KeyEvent.VK_R).isPressed()) {
+			getWorld().nextLevel();
+		}
+		
+		// RETOUR AU MENU
+		if (input.getKeyboardButton(KeyEvent.VK_M).isPressed()) {
+			getWorld().setNextLevel(new Menu());
 			getWorld().nextLevel();
 		}
 
