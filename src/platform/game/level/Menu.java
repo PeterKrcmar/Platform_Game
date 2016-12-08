@@ -14,10 +14,10 @@ public class Menu extends Level{
         
      // Register a new instance, to restart level automatically
         world.setNextLevel(new Menu());
-        world.setView(new Vector(10,6), 6);
         
      // Construct terrain
         world.register(new Limits(20,20));
+        world.register(new Background("BG"));
         
         world.register(new Terrain(1,-4,19,10,"snow"));
            
@@ -46,9 +46,9 @@ public class Menu extends Level{
         world.register(new Cloud(new Vector(19,9.5),3.5,1.2,new Vector(-1,9.5),0.3));
         
         //Logo + texte
-        world.register(new Background(10,8,8,1,"logo01"));
-        world.register(new Background(15,7,2,0.3,"tutorial"));
-        world.register(new Background(17,7,1.5,0.3,"lvl_select"));
+        world.register(new Deco(10,8,8,1,"logo01",-1));
+        world.register(new Deco(15,7,2,0.3,"tutorial",-1));
+        world.register(new Deco(17,7,1.5,0.3,"lvl_select",-1));
 	
 	}
 }

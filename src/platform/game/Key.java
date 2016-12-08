@@ -10,7 +10,14 @@ public class Key extends Actor implements Signal{
 	private boolean taken = false;
 	private double size = 0.5;
 	
+	/**
+     * Create a new Key.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     * @param color (blue, red, yellow)
+     */
 	public Key(double x, double y, String color) {
+		assert(color == "blue" || color == "red" || color == "yellow");
 		zone = new Box(new Vector(x,y),size,size);
 		sprite = getSprite("key." + color);
 		priority = 50;

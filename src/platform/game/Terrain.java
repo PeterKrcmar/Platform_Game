@@ -12,8 +12,17 @@ public class Terrain extends Block{
 	private double x;
 	private double y;
 	
+	/**
+     * Create a new Terrain.
+     * @param first coordinate of first block
+     * @param second coordinate of first block
+     * @param width, greater than 0
+     * @param height, greater than 0
+     * @param type of terrain (grass,snow,castle)
+     */
 	public Terrain(double x, double y, double width, double height, String name) {
 		super(new Box(new Vector(x+(width-1)/2,y+(height-1)/2),width,height),name);
+		assert(name == "grass" || name == "snow" || name == "castle");
 		this.name = name;
 		this.height = height;
 		this.width = width;

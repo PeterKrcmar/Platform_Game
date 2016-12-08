@@ -19,7 +19,10 @@ public class Player extends Actor{
 	private int sautPossible = 1;
 	private double cooldownSaut = 0.01;
 	
-	
+	/**
+     * Create a new Player.
+     * @param spawn position, not null
+     */
 	public Player(Vector position) {
 		if (position == null)
 			throw new NullPointerException();

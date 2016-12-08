@@ -6,15 +6,21 @@ import platform.util.Output;
 import platform.util.Vector;
 
 public class Spike extends Actor{
-	private final double SIZE = 0.8;
+	private final double SIZE = 1;
 	private double width;
 	private double cooldown = 0;
 	private double x;
 	private double y;
 	
+	/**
+     * Create a new row of Spikes.
+     * @param x first coordinate of first spike
+     * @param y second coordinate of first spike
+     * @param width width of row, greater than 0
+     */
 	public Spike (double x, double y, double width) {
-		if (width == 0.0)
-			throw new NullPointerException();
+		if (width <= 0)
+			throw new IllegalArgumentException();
 		zone = new Box(new Vector(x+(width-1)/2,y),width,SIZE);
 		this.width = width;
 		this.x = x;
@@ -31,7 +37,7 @@ public class Spike extends Actor{
 	public void interact(Actor other) {
 		super.interact(other);
 		if (!other.isSolid() && cooldown <= 0 && getBox().isColliding(other.getBox()))
-			if(other.hurt(this , Damage.PHYSICAL, 2.0, Vector.ZERO))
+			if(other.hurt(this , Damage.PHYSICAL, 4.0, Vector.ZERO))
 				cooldown = 1.5;
 	}
 	

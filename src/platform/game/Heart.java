@@ -10,6 +10,11 @@ public class Heart extends Actor{
 	private double size = 0.4;
 	private double variation = 0.0;
 	
+	/**
+     * Create a new Heart.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     */
 	public Heart(double x, double y) {
 		zone = new Box(new Vector(x,y),size,size);
 		sprite = getSprite("heart.full");

@@ -7,8 +7,15 @@ import platform.util.Vector;
 
 public class Overlay extends Actor{
 	private Player player;
+	private final double SIZE = 0.5;
 	
+	/**
+     * Create a new overlay.
+     * @param associated player, not null
+     */
 	public Overlay(Player player) {
+		if (player == null)
+			throw new NullPointerException();
 		this.player = player;
 		priority = 100;
 	}
@@ -20,7 +27,7 @@ public class Overlay extends Actor{
 	}
 
 	public Box getBox() {
-		return new Box(player.getPosition().add(new Vector(0,0.5)),0.5,0.2);
+		return player.getBox();
 	}
 	
 	public void draw(Input input, Output output) {
@@ -36,7 +43,10 @@ public class Overlay extends Actor{
 			// trouver le Sprite associé à name
 			sprite = getSprite(name);
 			// dessiner ce Sprite en desssus de Player.
-			output.drawSprite(sprite, new Box(player.getPosition().add(new Vector(-0.6,0.5).add(new Vector(0.2*i,0))),0.2,0.2));
+			//output.drawSprite(sprite, new Box(player.getPosition().add(new Vector(-0.6,0.5).add(new Vector(SIZE*i,0))),SIZE,SIZE));
+			
+			// Draw sprite in top left corner
+			output.drawSprite(sprite, new Box(output.getBox().getMin().add(new Vector(0.5,output.getBox().getHeight()-1).add(new Vector(SIZE*i,0))),SIZE,SIZE));
 		}
 	}
 }

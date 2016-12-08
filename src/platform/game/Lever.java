@@ -11,7 +11,16 @@ public class Lever extends Actor implements Signal{
 	private double cooldown = 0;
 	private double time;
 	
+	/**
+     * Create a new Lever.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     * @param spawn state
+     * @param activation time, greater than 0
+     */
 	public Lever(double x, double y, boolean active, double time) {
+		if (time <= 0)
+			throw new IllegalArgumentException();
 		this.active = active;
 		this.time = time;
 		zone = new Box(new Vector(x,y),0.8,0.8);

@@ -10,6 +10,15 @@ public class HiddenBlock extends Block{
 	private double hidden;
 	private Signal signal;
 	
+	/**
+     * Create a new Hidden Block.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     * @param width, greater than 0
+     * @param height, greater than 0
+     * @param sprite name
+     * @param activation signal
+     */
 	public HiddenBlock(double x, double y, double width, double height, String name, Signal signal) {
 		super(x,y,width,height,name);
 		this.signal = signal;

@@ -12,8 +12,14 @@ public class Fireball extends Actor {
 	private Actor owner;
 	private double cooldown = 3.7;
 	
+	/**
+     * Create a new Fireball.
+     * @param spawn position, not null
+     * @param velocity, not null
+     * @param owner, not null
+     */
 	public Fireball(Vector position, Vector velocity, Actor owner) {
-		if (position == null || velocity == null)
+		if (position == null || velocity == null || owner == null)
 			throw new NullPointerException();
 		this.owner = owner;
 		this.position = position;
@@ -23,8 +29,15 @@ public class Fireball extends Actor {
 		priority = 80;
 	}
 	
+	/**
+     * Create a new Fireball (other Sprite).
+     * @param spawn position, not null
+     * @param velocity, not null
+     * @param sprite to show
+     * @param owner, not null
+     */
 	public Fireball(Vector position, Vector velocity, String name, Actor owner) {
-		if (position == null || velocity == null)
+		if (position == null || velocity == null || owner == null)
 			throw new NullPointerException();
 		this.owner = owner;
 		this.position = position;
@@ -68,16 +81,6 @@ public class Fireball extends Actor {
 		
 		if (other.getBox().isColliding(getBox()) && other != owner) {
 			other.hurt(this , Damage.FIRE, 1.0, getPosition());
-		}
-	}
-	
-	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {
-		switch (type) {
-			case VOID:
-				getWorld().unregister(this);
-				return true;
-			default :
-				return super.hurt(instigator, type, amount, location);
 		}
 	}
 	

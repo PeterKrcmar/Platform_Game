@@ -10,6 +10,13 @@ public class Exit extends Actor{
 	private Level nextLevel;
 	private Signal signal;
 	
+	/**
+     * Create a new Exit door.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     * @param next level
+     * @param activation signal
+     */
 	public Exit(double x, double y, Level nextLevel, Signal signal) {
 		if (signal == null)
 			this.signal = new Constant();

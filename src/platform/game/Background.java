@@ -5,9 +5,25 @@ import platform.util.Input;
 import platform.util.Output;
 import platform.util.Vector;
 
-public class Background extends Deco {
+public class Background extends Actor{
 	
-	public Background(double x,double y, double width, double height, String name) {
-		super(x,y,width,height,name,-1);
+	/**
+     * Create a new Background.
+     * @param sprite name
+     */
+	public Background(String name) {
+		sprite = getSprite("deco/" + name);
+		priority = -10;
+	}
+	
+	public void draw(Input input, Output output) {
+		double width = output.getBox().getWidth();
+		double height = width/2;
+		zone = new Box(new Vector(output.getBox().getCenter().getX(),output.getBox().getCenter().getY()-3),width,height);
+		output.drawSprite(sprite, zone,0,0.7);
+	}
+	
+	public Box getBox() {
+		return new Box(Vector.ZERO,0.1,0.1);
 	}
 }

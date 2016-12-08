@@ -10,6 +10,12 @@ public class Torch extends Actor implements Signal{
 	private double variation = 0.0;
 	private final double SIZE = 0.8;
 	
+	/**
+     * Create a new Torch.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     * @param spawn state
+     */
 	public Torch(double x, double y, boolean lit) {
 		this.lit = lit;
 		zone = new Box(new Vector(x,y), SIZE, SIZE);
@@ -17,7 +23,7 @@ public class Torch extends Actor implements Signal{
 			sprite = getSprite("torch.lit.1");
 		else
 			sprite = getSprite("torch");
-		priority = 30;
+		priority = -1;
 	}
 	
 	public void update(Input input) {

@@ -15,8 +15,19 @@ public class Mover extends Block{
 	private Vector velocity;
 	private double velocityFactor = 1.0;
 	
+	/**
+     * Create a new Mover.
+     * @param spawn position, not null
+     * @param width, greater than 0
+     * @param height, greater to 0
+     * @param final position, not null
+     * @pararm sprite name
+     * @param activation signal
+     */
 	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal) {
 		super(new Box(min,width,height),name);
+		if (min == null || max == null)
+			throw new NullPointerException();
 		this.height = height;
 		this.width = width;
 		this.signal = signal;
@@ -30,8 +41,22 @@ public class Mover extends Block{
 		current = min;
 	}
 	
+	/**
+     * Create a new Mover.
+     * @param spawn position, not null
+     * @param width, greater than 0
+     * @param height, greater to 0
+     * @param final position, not null
+     * @pararm sprite name
+     * @param activation signal
+     * @param velocity, greater or equal to 0
+     */
 	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal, double velocityFactor) {
 		super(new Box(min,width,height),name);
+		if(min == null || max == null)
+			throw new NullPointerException();
+		if (velocityFactor < 0)
+			throw new IllegalArgumentException();
 		this.height = height;
 		this.width = width;
 		this.signal = signal;

@@ -12,8 +12,7 @@ public class Tutorial extends Level {
         
         // Register a new instance, to restart level automatically
         world.setNextLevel(new Tutorial());
-        
-        // Background
+        world.register(new Background("BG"));
         
         // Create terrain
         world.register(new Limits(50,50));
@@ -59,6 +58,7 @@ public class Tutorial extends Level {
         
         world.register(player);
         world.register(new Overlay(player));
+        world.register(new Hat(player));
         world.register(torch);
         world.register(blue);
         world.register(lever);
@@ -70,15 +70,15 @@ public class Tutorial extends Level {
         world.register(new Exit(15,14,new Menu(),new Constant()));
         
         // Tutorials
-        world.register(new Background(6,6,3,0.5,"tuto_01"));
-        world.register(new Background(13.5,8,4.5,0.6,"tuto_02"));
-        world.register(new Background(17.5,8.05,2.5,0.4,"tuto_03"));
-        world.register(new Background(23.5,5.5,4,0.5,"tuto_04"));
-        world.register(new Background(36,6,3,0.4,"tuto_05"));
-        world.register(new Background(36,13,3,0.5,"tuto_06"));
-        world.register(new Background(32,13.5,2.5,0.4,"tuto_07"));
-        world.register(new Background(26,14.5,2,0.5,"tuto_08"));
-        world.register(new Background(15.5,15,3.5,0.4,"tuto_09"));
+        world.register(new Deco(6,6,3,0.5,"tuto_01",-1));
+        world.register(new Deco(13.5,8,4.5,0.6,"tuto_02",-1));
+        world.register(new Deco(17.5,8.05,2.5,0.4,"tuto_03",-1));
+        world.register(new Deco(23.5,5.5,4,0.5,"tuto_04",-1));
+        world.register(new Deco(36,6,3,0.4,"tuto_05",-1));
+        world.register(new Deco(36,13,3,0.5,"tuto_06",-1));
+        world.register(new Deco(32,13.5,2.5,0.4,"tuto_07",-1));
+        world.register(new Deco(26,14.5,2,0.5,"tuto_08",-1));
+        world.register(new Deco(15.5,15,3.5,0.4,"tuto_09",-1));
         
         // Deco
         world.register(new Deco(0,6.4,1,2,"foliagePack_030",-1));

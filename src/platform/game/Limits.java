@@ -8,14 +8,15 @@ import platform.util.Vector;
 
 public class Limits extends Actor {
 	
+	/**
+     * Create new Limits.
+     * @param width, greater than 0
+     * @param height, greater than 0
+     */
 	public Limits (int width, int height) {
+		if (width <= 0 || height <= 0)
+			throw new IllegalArgumentException();
 		zone = new Box(Vector.ZERO, new Vector(width,height));
-		sprite = getSprite("empty");
-		priority = 100;
-	}
-	
-	public Limits (Vector lowerCorner, Vector upperCorner) {
-		zone = new Box(lowerCorner, upperCorner);
 		sprite = getSprite("empty");
 		priority = 100;
 	}

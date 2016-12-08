@@ -10,8 +10,26 @@ public class Jumper extends Actor{
 	private Vector position;
 	private final double SIZE = 0.8;
 	
+	/**
+     * Create a new Jumper.
+     * @param spawn position, not null
+     */
 	public Jumper(Vector position) {
+		if (position == null)
+			throw new NullPointerException();
 		this.position = position;
+		zone = new Box(position, SIZE, SIZE);
+		sprite = getSprite("jumper.normal");
+		priority = 50;
+	}
+	
+	/**
+     * Create a new Jumper.
+     * @param first coordinate of spawn
+     * @param second coordinate of spawn
+     */
+	public Jumper(double x, double y) {
+		position = new Vector(x,y);
 		zone = new Box(position, SIZE, SIZE);
 		sprite = getSprite("jumper.normal");
 		priority = 50;
@@ -40,7 +58,7 @@ public class Jumper extends Actor{
 	}
 	
 	public Box getBox() {
-		return new Box(position, SIZE, SIZE-SIZE*0.9);
+		return new Box(position, SIZE, SIZE*0.1);
 	}
 	
 }

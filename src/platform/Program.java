@@ -19,7 +19,7 @@ public class Program {
         // Create components
         Loader loader = new BufferedLoader(new FileLoader("res/", DefaultLoader.INSTANCE));
         Display display = new SwingDisplay();
-        display.setBackground(new Color(200,230,255));
+        display.setBackground(new Color(96,181,216));
         try {
             
             // Game loop
