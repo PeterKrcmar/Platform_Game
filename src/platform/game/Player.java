@@ -7,6 +7,7 @@ import platform.util.Box;
 import platform.util.Input;
 import platform.util.Output;
 import platform.util.Vector;
+import platform.game.Mover;
 
 public class Player extends Actor{
 	private Vector velocity;
@@ -21,7 +22,7 @@ public class Player extends Actor{
 	
 	/**
      * Create a new Player.
-     * @param spawn position, not null
+     * @param position spawn position, not null
      */
 	public Player(Vector position) {
 		if (position == null)
@@ -59,70 +60,71 @@ public class Player extends Actor{
     }
 	
 	// INTERRACTION
-		public void interact(Actor other) {
-			super.interact(other) ;
+	public void interact(Actor other) {
+		super.interact(other) ;
+
+		// STAY ON MOVER
+		if (other instanceof Mover && getBox().isColliding(other.getBox()) && getBox().getMin().getY() > other.getBox().getMin().getY() && other.getVelocity() != Vector.ZERO)
+			position = position.add(new Vector(((Mover) other).getDeltaPos().getX(),0));
 			
-		/*	// RESTER SUR MOVER
-			if (getBox().isColliding(other.getBox()) && other.isSolid() && other.getVelocity() != null) {
-				velocity = other.getVelocity();
-			}*/
-			
-			if (other.isSolid()) {
-				Vector delta = other.getBox().getCollision(getBox()) ;
-				if (delta != null) {
-					colliding = true;
-					position = position.add(delta) ;
-					if (delta.getX() != 0.0)
-						velocity = new Vector(0.0, velocity.getY()) ;
-					if (delta.getY() != 0.0)
-						velocity = new Vector(velocity.getX(), 0.0) ;
-				}
+		// NOT SINK IN SOLIDS
+		if (other.isSolid()) {
+			Vector delta = other.getBox().getCollision(getBox());
+			if (delta != null) {
+				colliding = true;
+				position = position.add(delta);
+				if (delta.getX() != 0.0)
+					velocity = new Vector(0.0, velocity.getY());
+				if (delta.getY() != 0.0)
+					velocity = new Vector(velocity.getX(), 0.0);
 			}
 		}
+					
+	}
 	
 	// EVOLUTION
 	public void update(Input input) {
-		super.update(input) ;
+		super.update(input);
 		
-		// DEVENIR SAD
+		// BECOME SAD
 				final double threshold = 2.0;
 				if (health <= threshold)
 					sprite = getSprite("blocker.sad");
 				else
 					sprite = getSprite("blocker.happy");
 	
-		// ARRET SI COLLISION
+		// FRICTION (ACCELERATING ZONES?)
 		if (colliding && velocity.getX() != 0) {
 			double scale = Math.pow(0.001, input.getDeltaTime());
 			velocity = velocity.mul(scale);
 		}
 		
 		double maxSpeed = 4.0 ;
-		// DROITE
+		// RIGHT
 		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()) {
 			sprite = getSprite("blocker.happy.right");
 			if (velocity.getX() < maxSpeed) {
-				double increase = 60.0 * input.getDeltaTime() ;
-				double speed = velocity.getX() + increase ;
+				double increase = 60.0 * input.getDeltaTime();
+				double speed = velocity.getX() + increase;
 				if (speed > maxSpeed)
-					speed = maxSpeed ;
+					speed = maxSpeed;
 				velocity = new Vector(speed, velocity.getY());
 			}
 		} else
-		// GAUCHE
+		// LEFT
 		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
 			sprite = getSprite("blocker.happy.left");
 			if (velocity.getX() > -maxSpeed) {
-				double increase = -60.0 * input.getDeltaTime() ;
+				double increase = -60.0 * input.getDeltaTime();
 				double speed = velocity.getX() + increase ;
 				if (speed < -maxSpeed)
-					speed = -maxSpeed ;
-				velocity = new Vector(speed, velocity.getY()) ;
+					speed = -maxSpeed;
+				velocity = new Vector(speed, velocity.getY());
 			}
 		} else {
 			velocity = new Vector(0, velocity.getY());
 		}
-		// SAUT
+		// JUMP
 		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && sautPossible == 1) {
 				velocity = new Vector(velocity.getX(), 7.0);
 				sautPossible = 0;
@@ -142,7 +144,7 @@ public class Player extends Actor{
 			velocity = new Vector(15,5);
 		}
 		
-		// BAISSER
+		// DUCK
 		if (input.getKeyboardButton(KeyEvent.VK_DOWN).isDown())
 			size = 0.3;
 		else
@@ -153,15 +155,16 @@ public class Player extends Actor{
 		velocity = velocity.add(acceleration.mul(delta)) ;
 		position = position.add(velocity.mul(delta)) ;
 		
-		// TIRER FIREBALL / BOULE DE NEIGE
+		// THROW FIREBALL
 		Vector v = velocity.add(velocity.resized(2.0));
 		if (input.getKeyboardButton(KeyEvent.VK_SPACE).isPressed()) {
 			getWorld().register(new Fireball(position,v,this));
 		}
 		
+		// THROW SNOWBALL
 		Vector w = ((input.getMouseLocation()).sub(position)).resized(10.0);
 		if (input.getMouseButton(1).isPressed()) {
-			getWorld().register(new Fireball(position,w,"snowball",this));
+			getWorld().register(new Snowball(position,w,this));
 		}
 		
 		// ZOOMIN / ZOOMOUT
@@ -174,42 +177,44 @@ public class Player extends Actor{
 			zoom = MAX_ZOOMOUT;
 		} else {zoom = ZOOM_DEFAULT;}
 
-		// REPLACER AU DEBUT DU NIVEAU
+		// RESTART LEVEL
 		if (input.getKeyboardButton(KeyEvent.VK_R).isPressed()) {
 			getWorld().nextLevel();
 		}
 		
-		// RETOUR AU MENU
+		// RETURN TO MENU
 		if (input.getKeyboardButton(KeyEvent.VK_M).isPressed()) {
 			getWorld().setNextLevel(new Menu());
 			getWorld().nextLevel();
 		}
 
-		// SOUFFLER
+		// BLOW
 		if (input.getKeyboardButton(KeyEvent.VK_B).isPressed())
 			getWorld().hurt(getBox(), this , Damage.AIR, 1.0, getPosition());
 		
-		// ACTIVER LEVIER / PORTE
+		// ACTIVATE LEVER / ENTER DOOR
 		if (input.getKeyboardButton(KeyEvent.VK_E).isPressed())
 			getWorld().hurt(getBox(), this , Damage.ACTIVATION, 1.0, getPosition());
 		
-		// MOURRIR
+		// DIE
 		if (health <= 0)
 			this.die();
 	}
 	
-	// VUE FIXEE SUR PERSONNAGE
+	// FIXED VIEW
 	public void postUpdate(Input input) {
 		super.postUpdate(input);
 		getWorld().setView(position, zoom);
 	}
 		
-	// AFFICHAGE
+	// DRAW
 	public void draw(Input input , Output output) {
 		double ghost = (health/MAX_HEALTH)+0.1;
 		output.drawSprite(sprite , getBox(),0,ghost);
 	}
 	
+	
+	// HURT
 	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {
 		switch (type) {
 		case AIR : 
@@ -232,6 +237,7 @@ public class Player extends Actor{
 		}
 	}
 	
+	// DIE
 	public void die() {
 		getWorld().unregister(this);
 		getWorld().nextLevel();

@@ -47,8 +47,8 @@ public class Menu extends Level{
         
         //Logo + texte
         world.register(new Deco(10,8,8,1,"logo01",-1));
-        world.register(new Deco(15,7,2,0.3,"tutorial",-1));
-        world.register(new Deco(17,7,1.5,0.3,"lvl_select",-1));
+        world.register(new Deco(15,7,1.5,0.3,"tutorial",-1));
+        world.register(new Deco(17,7,2,0.3,"lvl_select",-1));
 	
 	}
 }

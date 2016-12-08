@@ -14,6 +14,7 @@ public class Mover extends Block{
 	private Vector current;
 	private Vector velocity;
 	private double velocityFactor = 1.0;
+	private Vector deltaPos;
 	
 	/**
      * Create a new Mover.
@@ -73,16 +74,20 @@ public class Mover extends Block{
 	
 	private boolean i = true;
 	public void update(Input input) {
+		Vector posI = current;
+		Vector posF = Vector.ZERO;
 		double delta = input.getDeltaTime();
 		if (signal.isActive()) {
 			if ((current.getLength() < max.getLength()) && i){
 				velocity = (max.sub(min)).resized(velocityFactor);
-				current = current.add(velocity.mul(delta));}
-			else if (current.getLength() > min.getLength()){
+				current = current.add(velocity.mul(delta));
+				posF = current;
+			} else if (current.getLength() > min.getLength()){
 				if (current.getLength() > max.getLength())
 					i = false;
 				velocity = (max.sub(min)).resized(velocityFactor);
 				current = current.sub(velocity.mul(delta));
+				posF = current;
 				if (current.getLength() < min.getLength())
 					i = true;
 			}
@@ -90,6 +95,11 @@ public class Mover extends Block{
 			velocity = Vector.ZERO;
 		}
 		zone = new Box(current,width,height);
+		deltaPos = posF.sub(posI);
+	}
+	
+	public Vector getDeltaPos() {
+		return deltaPos;
 	}
 	
 	public void draw(Input input, Output output) {

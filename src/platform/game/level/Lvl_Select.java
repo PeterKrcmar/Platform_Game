@@ -16,19 +16,21 @@ public class Lvl_Select extends Level {
         world.register(new Limits(30,20));
         world.register(new Background("BG"));
         
-        world.register(new Terrain(0,10,5,6,"castle"));
+        world.register(new Terrain(0,10,4,6,"castle"));
         
-        world.register(new Terrain(8,15,22,1,"castle"));
+        world.register(new Terrain(8,15,18,1,"castle"));
         
-        world.register(new Terrain(5,10,1,4,"castle"));
+        world.register(new Terrain(3,10,2,5,"castle"));
         
-        world.register(new Terrain(6,10,1,3,"castle"));
+        world.register(new Terrain(4,10,2,4,"castle"));
         
-        world.register(new Terrain(7,10,1,2,"castle"));
+        world.register(new Terrain(5,10,2,3,"castle"));
         
-        world.register(new Terrain(8,10,1,1,"castle"));
+        world.register(new Terrain(6,10,2,2,"castle"));
         
-        world.register(new Terrain(0,10,30,1,"castle"));
+        world.register(new Terrain(7,10,2,1,"castle"));
+        
+        world.register(new Terrain(0,10,26,1,"castle"));
         
         
         // OBJECTS
