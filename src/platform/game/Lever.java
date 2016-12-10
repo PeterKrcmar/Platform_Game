@@ -10,6 +10,7 @@ public class Lever extends Actor implements Signal{
 	private boolean active;
 	private double cooldown = 0;
 	private double time;
+	private boolean spawnState;
 	
 	/**
      * Create a new Lever.
@@ -18,13 +19,14 @@ public class Lever extends Actor implements Signal{
      * @param spawn state
      * @param activation time, greater than 0
      */
-	public Lever(double x, double y, boolean active, double time) {
+	public Lever(double x, double y, boolean spawnState, double time) {
 		if (time <= 0)
 			throw new IllegalArgumentException();
-		this.active = active;
 		this.time = time;
+		this.spawnState = spawnState;
+		active = spawnState;
 		zone = new Box(new Vector(x,y),0.8,0.8);
-		if (active)
+		if (spawnState)
 			sprite = getSprite("lever.right");
 		else
 			sprite = getSprite("lever.left");
@@ -32,9 +34,9 @@ public class Lever extends Actor implements Signal{
 	}
 	
 	public void update(Input input) {
-		cooldown -= input.getDeltaTime();
+			cooldown -= input.getDeltaTime();
 		if (cooldown < 0)
-			active = false;
+			active = spawnState;
 	}
 	
 	public boolean hurt(Actor instigator , Damage type, double amount , Vector location) {

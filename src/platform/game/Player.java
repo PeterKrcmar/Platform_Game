@@ -19,6 +19,7 @@ public class Player extends Actor{
 	private final double MAX_HEALTH = 10;
 	private int sautPossible = 1;
 	private double cooldownSaut = 0.01;
+	private boolean construct = false;
 	
 	/**
      * Create a new Player.
@@ -54,6 +55,14 @@ public class Player extends Actor{
 		return new Box(position, size, size);
 	}
 	
+	public void setPosition(Vector position) {
+		this.position = position;
+	}
+	
+	public void activateConstruct(boolean construct) {
+		this.construct = construct;
+	}
+	
 	public void preUpdate(Input input) {
 		super.preUpdate(input);
     	colliding = false;
@@ -77,21 +86,21 @@ public class Player extends Actor{
 					velocity = new Vector(0.0, velocity.getY());
 				if (delta.getY() != 0.0)
 					velocity = new Vector(velocity.getX(), 0.0);
+				if (delta.getX() >= size*0.5 || delta.getY() >= size*0.5)
+					this.die();
 			}
-		}
-					
+		}				
 	}
 	
 	// EVOLUTION
 	public void update(Input input) {
 		super.update(input);
-		
-		// BECOME SAD
+		/*// BECOME SAD
 				final double threshold = 2.0;
 				if (health <= threshold)
 					sprite = getSprite("blocker.sad");
 				else
-					sprite = getSprite("blocker.happy");
+					sprite = getSprite("blocker.happy");*/
 	
 		// FRICTION (ACCELERATING ZONES?)
 		if (colliding && velocity.getX() != 0) {
@@ -122,6 +131,7 @@ public class Player extends Actor{
 				velocity = new Vector(speed, velocity.getY());
 			}
 		} else {
+			sprite = getSprite("blocker.happy");
 			velocity = new Vector(0, velocity.getY());
 		}
 		// JUMP
@@ -167,6 +177,14 @@ public class Player extends Actor{
 			getWorld().register(new Snowball(position,w,this));
 		}
 		
+		// TP
+		if (input.getMouseButton(3).isPressed())
+			setPosition(input.getMouseLocation());
+		
+		// CONSTRUCT
+		if (input.getMouseButton(2).isDown() && construct)
+			getWorld().register(new Block(input.getMouseLocation().getX(),input.getMouseLocation().getY(),0.05,0.05,"heart"));
+		
 		// ZOOMIN / ZOOMOUT
 		final int MAX_ZOOMOUT = 15;
 		final int ZOOM_DEFAULT = 6;
@@ -209,8 +227,7 @@ public class Player extends Actor{
 		
 	// DRAW
 	public void draw(Input input , Output output) {
-		double ghost = (health/MAX_HEALTH)+0.1;
-		output.drawSprite(sprite , getBox(),0,ghost);
+		output.drawSprite(sprite , getBox());
 	}
 	
 	
@@ -232,14 +249,20 @@ public class Player extends Actor{
 		case PHYSICAL :
 			health -= amount;
 			return true;
+		case LASER :
+			health -= amount;
+			return true;
 		default :
 			return super.hurt(instigator , type, amount , location) ;
 		}
 	}
 	
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
+	}
+	
 	// DIE
 	public void die() {
-		getWorld().unregister(this);
-		getWorld().nextLevel();
+		getWorld().register(new End());
 	}
 }

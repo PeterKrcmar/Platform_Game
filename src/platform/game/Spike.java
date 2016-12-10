@@ -36,9 +36,10 @@ public class Spike extends Actor{
 	
 	public void interact(Actor other) {
 		super.interact(other);
-		if (!other.isSolid() && cooldown <= 0 && getBox().isColliding(other.getBox()))
-			if(other.hurt(this , Damage.PHYSICAL, 4.0, Vector.ZERO))
-				cooldown = 1.5;
+		if (other instanceof Player && cooldown <= 0 && getBox().isColliding(other.getBox()))
+				if(other.hurt(this , Damage.PHYSICAL, 2.0, Vector.ZERO)) {
+					((Player) other).setVelocity(Vector.ZERO);
+					cooldown = 1.5; }
 	}
 	
 	public void draw(Input input, Output output) {

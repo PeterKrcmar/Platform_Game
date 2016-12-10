@@ -21,10 +21,14 @@ private double fadein;
     public int getPriority() {
         return Integer.MAX_VALUE;
     }
+    
+    @Override
+    public void preUpdate(Input input) {
+        fadein -= input.getDeltaTime();
+    }
 
     @Override
     public void update(Input input) {
-        fadein -= input.getDeltaTime();
         if (fadein <= 0.0)
             getWorld().unregister(this);
     }

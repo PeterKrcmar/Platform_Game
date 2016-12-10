@@ -42,8 +42,6 @@ public class Simulator implements World {
     	currentRadius = 10.0 ;
     }
     
-    public void preUpdate(Input input, Output output) {}
-    
     /**
      * Simulate a single step of the simulation.
      * @param input input object to use, not null
@@ -56,13 +54,13 @@ public class Simulator implements World {
 			a.preUpdate(input);
 		
 		// transition fluide de la vue
-		double factor = 0.05 ;
+		double factor = 0.2;
 		currentCenter = currentCenter.mul(1.0 - factor).add(expectedCenter.mul(factor)) ;
 		currentRadius = currentRadius * (1.0 - factor) + expectedRadius * factor ;
 		
 		// on definit la vue
-		View view = new View(input , output) ;
-		view.setTarget(currentCenter , currentRadius) ;
+		View view = new View(input , output);
+		view.setTarget(currentCenter , currentRadius);
 		
 		// trouver priorites et définir s'ils vont interagir
 		for (Actor actor : actors)
@@ -121,8 +119,6 @@ public class Simulator implements World {
 		
 	}
 	
-	public void postUpdate(Input input, Output output) {}
-	
 	@Override
     public void setView(Vector center , double radius) {
     	if (center == null)
@@ -147,7 +143,7 @@ public class Simulator implements World {
     public void unregister(Actor actor) {
     	unregistered.add(actor) ;
     }
-
+    
 	@Override
 	public Vector getGravity() {
 		return new Vector(0.0,-9.81);
@@ -172,7 +168,5 @@ public class Simulator implements World {
 					++victims ;
 		return victims ;
 	}
-	
-
-    
+ 
 }

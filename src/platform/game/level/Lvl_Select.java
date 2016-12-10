@@ -34,7 +34,7 @@ public class Lvl_Select extends Level {
         
         
         // OBJECTS
-        Player player = new Player(new Vector(2,15));
+        Player player = new Player(new Vector(2,16));
         
         world.register(player);
         world.register(new Hat(player));

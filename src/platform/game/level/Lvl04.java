@@ -4,46 +4,25 @@ import platform.util.Box;
 import platform.util.Vector;
 import platform.game.*;
 
-public class Lvl02 extends Level {
-
+public class Lvl04 extends Level {
+	
 	public void register(World world) {
         super.register(world);
         
         // Register a new instance, to restart level automatically
-        world.setNextLevel(new Lvl02());
+        world.setNextLevel(new Lvl04());
         
         // Create terrain
-        world.register(new Limits(30,30));
+        world.register(new Limits(30,150));
         world.register(new Background("BG"));
         
-        world.register(new Terrain(9,14,4,1,"snow")); //4
-        
-        world.register(new Terrain(9,11,1,4,"snow")); //3
-        
-        world.register(new Terrain(20,11,1,5,"snow")); //5
-        
-        world.register(new Terrain(9,4,12,8,"snow")); //2
-        
-        world.register(new Terrain(24,3,1,3,"snow")); //8
-        
-        world.register(new Terrain(0,0,30,5,"snow")); //1
-        
-        world.register(new Terrain(12,13,1,2,"snow")); //3.5
-        
-        world.register(new Terrain(20,17,10,1,"snow")); //6
-        
-        world.register(new Terrain(28,5,2,13,"snow")); //rightside
-        
-        world.register(new Terrain(24,7,1,9,"snow")); //7
-        
-        world.register(new Terrain(4,9,3,1,"snow")); //jump
-        
-        world.register(new Terrain(15,13,3,1,"snow")); //spawn
+        world.register(new Terrain(15,14,4,1,"snow")); //
+
         
         
         
         // Create objects
-        Player player = new Player(new Vector(15.5,14));
+        Player player = new Player(new Vector(1,145));
         Key blue = new Key(1,5,"blue");
         Key red = new Key(22,12,"red");
         Key yellow = new Key(26,16,"yellow");

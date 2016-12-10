@@ -37,7 +37,7 @@ public class Lvl01 extends Level {
         
         
         // Create objects
-        Player player = new Player(new Vector(1,4));
+        Player player = new Player(new Vector(1,5));
         Torch torch1 = new Torch(3.5,5,true);
         Torch torch2 = new Torch(5,5,true);
         Torch torch3 = new Torch(6.5,5,true);
