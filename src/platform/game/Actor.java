@@ -62,8 +62,9 @@ public abstract class Actor implements Comparable<Actor> {
 	// SPRITE
 	protected Sprite getSprite(String name) {
 		if (name == null)
-			throw new NullPointerException();
-		return loader.getSprite(name);
+			return loader.getSprite("duck");
+		else
+			return loader.getSprite(name);
 	}
 	
 	// DAMAGE

@@ -12,9 +12,9 @@ public class Torch extends Actor implements Signal{
 	
 	/**
      * Create a new Torch.
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
-     * @param spawn state
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
+     * @param lit spawn state
      */
 	public Torch(double x, double y, boolean lit) {
 		this.lit = lit;

@@ -10,14 +10,16 @@ public class Door extends Block{
 
 	/**
      * Create a new Door (Lock).
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
-     * @param color (blue, red, yellow)
-     * @param activation signal
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
+     * @param color color of lock, (blue, green, red, yellow)
+     * @param signal activation signal, not null
      */
-	public Door(int x, int y, String color, Signal signal) {
+	public Door(double x, double y, String color, Signal signal) {
 		super(x,y,1,1,"lock." + color);
-		assert(color == "blue" || color == "red" || color == "yellow");
+		if (signal == null)
+			throw new NullPointerException();
+		assert(color == "blue" || color == "red" || color == "yellow" || color == "green");
 		this.signal = signal;
 	}
 	

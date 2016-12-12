@@ -14,7 +14,7 @@ public abstract class Level extends Actor {
 private double fadein;
 
     public Level() {
-        fadein = 1.0;
+        fadein = 0.0;
     }
     
     @Override

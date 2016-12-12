@@ -14,16 +14,16 @@ public class BasicLevel extends Level {
         world.setNextLevel(new BasicLevel());
         
         // Create map
-        world.register(new Block(new Vector(-5, 5), new Vector(-3, 7),"stone.broken.1")); //9
-        world.register(new Block(new Vector(3, -2), new Vector(4.2,-1),"stone.broken.1")); //6
-        //world.register(new Block(new Vector(4, -2), new Vector(5,-1),"stone.broken.1")); //7
-        world.register(new Block(new Vector(4.7, -2), new Vector(6,-1),"stone.broken.1")); //8
-        world.register(new Block(new Vector(-8, 0), new Vector(-5,2),"stone.broken.2")); //1
-        world.register(new Block(new Vector(-6, -2), new Vector(-3,0),"stone.broken.2")); //2
-        world.register(new Block(new Vector(-3, -2), new Vector(0, 0),"stone.broken.2")); //3
-        world.register(new Block(new Vector(0, -2), new Vector(3, 0),"stone.broken.2")); //4
-        world.register(new Block(new Vector(6, -2), new Vector(9, 0),"stone.broken.2")); //5
-        world.register(new Block(new Vector(4, -5), new Vector(7, -4),"stone.broken.2")); //10
+        world.register(new Block(new Vector(-5, 5), new Vector(-3, 7),null)); //9
+        world.register(new Block(new Vector(3, -2), new Vector(4.2,-1),null)); //6
+        //world.register(new Block(new Vector(4, -2), new Vector(5,-1),null)); //7
+        world.register(new Block(new Vector(4.7, -2), new Vector(6,-1),null)); //8
+        world.register(new Block(new Vector(-8, 0), new Vector(-5,2),null)); //1
+        world.register(new Block(new Vector(-6, -2), new Vector(-3,0),null)); //2
+        world.register(new Block(new Vector(-3, -2), new Vector(0, 0),null)); //3
+        world.register(new Block(new Vector(0, -2), new Vector(3, 0),null)); //4
+        world.register(new Block(new Vector(6, -2), new Vector(9, 0),null)); //5
+        world.register(new Block(new Vector(4, -5), new Vector(7, -4),null)); //10
         //world.register(new Deco(1.5,1.5,"foliagePack_028"));
         
         // Create objects
@@ -47,8 +47,8 @@ public class BasicLevel extends Level {
         world.register(red);
         world.register(yellow);
         world.register(lever);
-        world.register(new Door(new Vector(5, 5), new Vector(6, 6),"blue",new And(red,new And(blue,yellow))));
-        world.register(new Mover(new Vector(6,4), 1, 2, new Vector(8,8), "stone.broken.4", torch));
+        world.register(new Door(5.5, 5.5,"blue",new And(red,new And(blue,yellow))));
+        world.register(new Mover(new Vector(6,4), 1, 2, new Vector(8,8), null, torch));
         world.register(new Exit(5,0,new Menu(),new Constant()));
     }
     

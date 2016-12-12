@@ -12,8 +12,8 @@ public class Heart extends Actor{
 	
 	/**
      * Create a new Heart.
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
      */
 	public Heart(double x, double y) {
 		zone = new Box(new Vector(x,y),size,size);

@@ -9,7 +9,7 @@ public class Background extends Actor{
 	
 	/**
      * Create a new Background.
-     * @param sprite name
+     * @param name sprite name
      */
 	public Background(String name) {
 		sprite = getSprite("deco/" + name);
@@ -24,6 +24,6 @@ public class Background extends Actor{
 	}
 	
 	public Box getBox() {
-		return new Box(Vector.ZERO,0.1,0.1);
+		return Box.EMPTY;
 	}
 }

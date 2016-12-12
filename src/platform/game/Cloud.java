@@ -8,11 +8,11 @@ public class Cloud extends Mover {
 
 	/**
      * Create a new Cloud.
-     * @param spawn position, not null
-     * @param width, greater than 0
-     * @param height, greater than 0
-     * @param final position, not null
-     * @param velocity, greater or equal to 0
+     * @param min spawn position, not null
+     * @param width width of cloud, greater than 0
+     * @param height height of cloud, greater than 0
+     * @param max final position, not null
+     * @param velocityFactor velocity factor, greater or equal to 0
      */
 	public Cloud(Vector min,double width, double height, Vector max, double velocityFactor) {
 		super(min,width,height,max,"cloud",new Constant(),velocityFactor);

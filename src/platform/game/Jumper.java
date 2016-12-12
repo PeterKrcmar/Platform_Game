@@ -12,7 +12,7 @@ public class Jumper extends Actor{
 	
 	/**
      * Create a new Jumper.
-     * @param spawn position, not null
+     * @param position spawn position, not null
      */
 	public Jumper(Vector position) {
 		if (position == null)
@@ -25,8 +25,8 @@ public class Jumper extends Actor{
 	
 	/**
      * Create a new Jumper.
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
      */
 	public Jumper(double x, double y) {
 		position = new Vector(x,y);

@@ -10,8 +10,8 @@ public class Overlay extends Actor{
 	private final double SIZE = 0.5;
 	
 	/**
-     * Create a new overlay.
-     * @param associated player, not null
+     * Create a new Overlay.
+     * @param player associated player, not null
      */
 	public Overlay(Player player) {
 		if (player == null)

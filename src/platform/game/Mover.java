@@ -18,16 +18,16 @@ public class Mover extends Block{
 	
 	/**
      * Create a new Mover.
-     * @param spawn position, not null
-     * @param width, greater than 0
-     * @param height, greater to 0
-     * @param final position, not null
-     * @pararm sprite name
-     * @param activation signal
+     * @param min spawn position, not null
+     * @param width width of the mover, greater than 0
+     * @param height height of the mover, greater to 0
+     * @param max final position, not null
+     * @pararm name sprite name
+     * @param signal activation signal, not null
      */
 	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal) {
 		super(new Box(min,width,height),name);
-		if (min == null || max == null)
+		if (min == null || max == null || signal == null)
 			throw new NullPointerException();
 		this.height = height;
 		this.width = width;
@@ -44,20 +44,20 @@ public class Mover extends Block{
 	
 	/**
      * Create a new Mover.
-     * @param spawn position, not null
-     * @param width, greater than 0
-     * @param height, greater to 0
-     * @param final position, not null
-     * @pararm sprite name
-     * @param activation signal
-     * @param velocity, greater or equal to 0
+     * @param min spawn position, not null
+     * @param width width of the mover, greater than 0
+     * @param height height of the mover, greater to 0
+     * @param max final position, not null
+     * @pararm name sprite name
+     * @param signal activation signal, not null
+     * @param velocityFactor velocity factor, greater or equal to 0
      */
 	public Mover (Vector min,double width, double height, Vector max, String name, Signal signal, double velocityFactor) {
 		super(new Box(min,width,height),name);
-		if(min == null || max == null)
+		if(min == null || max == null || signal == null)
 			throw new NullPointerException();
 		if (velocityFactor < 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("enter velocity factor greater or equal to zero");
 		this.height = height;
 		this.width = width;
 		this.signal = signal;
@@ -98,6 +98,7 @@ public class Mover extends Block{
 		deltaPos = posF.sub(posI);
 	}
 	
+	// used for keeping things on top of the Mover
 	public Vector getDeltaPos() {
 		return deltaPos;
 	}

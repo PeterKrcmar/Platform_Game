@@ -15,8 +15,6 @@ public class Hat extends Actor{
      * @param player owner of the hat, not null
      */
 	public Hat(Player player) {
-		if (player == null)
-			throw new NullPointerException();
 		this.player = player;
 		priority = 43;
 	}
@@ -32,7 +30,7 @@ public class Hat extends Actor{
 	}
 	
 	public void draw(Input input, Output output) {
-		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
+		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown() || input.getKeyboardButton(KeyEvent.VK_A).isDown()) {
 			sprite = getSprite("santa_hat_left");
 			output.drawSprite(sprite, new Box(player.getPosition().add(new Vector(player.getBox().getWidth()*0.25,player.getBox().getHeight()*0.5)),player.getBox().getWidth()*1.7,player.getBox().getHeight()*0.8));
 		} else {

@@ -20,7 +20,7 @@ public class Spike extends Actor{
      */
 	public Spike (double x, double y, double width) {
 		if (width <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("enter a positive width");
 		zone = new Box(new Vector(x+(width-1)/2,y),width,SIZE);
 		this.width = width;
 		this.x = x;

@@ -26,8 +26,8 @@ public class Menu extends Level{
         Player player = new Player(new Vector(10,6));
         world.register(player);
         world.register(new Hat(player));
-        world.register(new Exit(15,6,new Tutorial(),new Constant()));
-        world.register(new Exit(17,6,new Lvl_Select(),new Constant()));
+        world.register(new Exit(15,6,new Tutorial(),null));
+        world.register(new Exit(17,6,new Lvl_Select(),null));
         
      // Deco
         //Arbres gauche

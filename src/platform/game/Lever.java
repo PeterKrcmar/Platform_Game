@@ -14,14 +14,14 @@ public class Lever extends Actor implements Signal{
 	
 	/**
      * Create a new Lever.
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
-     * @param spawn state
-     * @param activation time, greater than 0
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
+     * @param spawnState spawn state
+     * @param time activation time, greater than 0
      */
 	public Lever(double x, double y, boolean spawnState, double time) {
 		if (time <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("enter a positive activation time");
 		this.time = time;
 		this.spawnState = spawnState;
 		active = spawnState;

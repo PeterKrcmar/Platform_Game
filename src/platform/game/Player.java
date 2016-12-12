@@ -35,6 +35,7 @@ public class Player extends Actor{
 		health = MAX_HEALTH;
 	}
 	
+	// GETTERS
 	public Vector getPosition() {
 		return position;
 	}
@@ -55,14 +56,17 @@ public class Player extends Actor{
 		return new Box(position, size, size);
 	}
 	
+	// SETTER
 	public void setPosition(Vector position) {
 		this.position = position;
 	}
 	
+	// FOR DRAW IN MENU
 	public void activateConstruct(boolean construct) {
 		this.construct = construct;
 	}
 	
+	// PREUPDATE
 	public void preUpdate(Input input) {
 		super.preUpdate(input);
     	colliding = false;
@@ -89,7 +93,7 @@ public class Player extends Actor{
 				if (delta.getX() >= size*0.5 || delta.getY() >= size*0.5)
 					this.die();
 			}
-		}				
+		}
 	}
 	
 	// EVOLUTION
@@ -110,7 +114,7 @@ public class Player extends Actor{
 		
 		double maxSpeed = 4.0 ;
 		// RIGHT
-		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()) {
+		if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown() || input.getKeyboardButton(KeyEvent.VK_D).isDown()) {
 			sprite = getSprite("blocker.happy.right");
 			if (velocity.getX() < maxSpeed) {
 				double increase = 60.0 * input.getDeltaTime();
@@ -121,7 +125,7 @@ public class Player extends Actor{
 			}
 		} else
 		// LEFT
-		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()) {
+		if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown() || input.getKeyboardButton(KeyEvent.VK_A).isDown()) {
 			sprite = getSprite("blocker.happy.left");
 			if (velocity.getX() > -maxSpeed) {
 				double increase = -60.0 * input.getDeltaTime();
@@ -135,7 +139,7 @@ public class Player extends Actor{
 			velocity = new Vector(0, velocity.getY());
 		}
 		// JUMP
-		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && sautPossible == 1) {
+		if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() || input.getKeyboardButton(KeyEvent.VK_W).isPressed() && sautPossible == 1) {
 				velocity = new Vector(velocity.getX(), 7.0);
 				sautPossible = 0;
 		} else if (sautPossible == 0 && colliding && velocity.getY() == 0 && cooldownSaut < 0){
@@ -148,22 +152,25 @@ public class Player extends Actor{
 			cooldownSaut = 0.01;
 		
 		// WALLJUMP
-		if (sautPossible == 0 && colliding && velocity.getY() < 0 && input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown()){
-			velocity = new Vector(-15,5);
-		}else if (sautPossible == 0 && colliding && velocity.getY() < 0 && input.getKeyboardButton(KeyEvent.VK_UP).isPressed() && input.getKeyboardButton(KeyEvent.VK_LEFT).isDown()){
-			velocity = new Vector(15,5);
-		}
+		if (sautPossible == 0 && colliding && velocity.getY() < 0)
+			if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() || input.getKeyboardButton(KeyEvent.VK_W).isPressed())
+				if (input.getKeyboardButton(KeyEvent.VK_RIGHT).isDown() || input.getKeyboardButton(KeyEvent.VK_D).isDown())
+					velocity = new Vector(-15,5);
+		else if (sautPossible == 0 && colliding && velocity.getY() < 0)
+			if (input.getKeyboardButton(KeyEvent.VK_UP).isPressed() || input.getKeyboardButton(KeyEvent.VK_W).isPressed())
+				if (input.getKeyboardButton(KeyEvent.VK_LEFT).isDown() || input.getKeyboardButton(KeyEvent.VK_A).isDown())
+					velocity = new Vector(15,5);
 		
 		// DUCK
-		if (input.getKeyboardButton(KeyEvent.VK_DOWN).isDown())
+		if (input.getKeyboardButton(KeyEvent.VK_DOWN).isDown() || input.getKeyboardButton(KeyEvent.VK_S).isDown())
 			size = 0.3;
 		else
 			size = 0.6;
 		
-		double delta = input.getDeltaTime() ;
+		double delta = input.getDeltaTime();
 		Vector acceleration = getWorld().getGravity();
-		velocity = velocity.add(acceleration.mul(delta)) ;
-		position = position.add(velocity.mul(delta)) ;
+		velocity = velocity.add(acceleration.mul(delta));
+		position = position.add(velocity.mul(delta));
 		
 		// THROW FIREBALL
 		Vector v = velocity.add(velocity.resized(2.0));
@@ -188,10 +195,7 @@ public class Player extends Actor{
 		// ZOOMIN / ZOOMOUT
 		final int MAX_ZOOMOUT = 15;
 		final int ZOOM_DEFAULT = 6;
-		if (input.getKeyboardButton(KeyEvent.VK_1).isDown()) {
-			zoom = 2;
-		}
-		else if (input.getKeyboardButton(KeyEvent.VK_2).isDown()) {
+		if (input.getKeyboardButton(KeyEvent.VK_2).isDown()) {
 			zoom = MAX_ZOOMOUT;
 		} else {zoom = ZOOM_DEFAULT;}
 

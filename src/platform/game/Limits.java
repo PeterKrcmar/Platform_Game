@@ -10,12 +10,12 @@ public class Limits extends Actor {
 	
 	/**
      * Create new Limits.
-     * @param width, greater than 0
-     * @param height, greater than 0
+     * @param width width of limits, greater than 0
+     * @param height height of limits, greater than 0
      */
 	public Limits (int width, int height) {
 		if (width <= 0 || height <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("enter a positive width and height");
 		zone = new Box(Vector.ZERO, new Vector(width,height));
 		sprite = getSprite("empty");
 		priority = 100;

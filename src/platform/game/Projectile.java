@@ -13,10 +13,10 @@ public abstract class Projectile extends Actor{
 	
 	/**
      * Create a new Projectile.
-     * @param spawn position, not null
-     * @param velocity, not null
-     * @param sprite to show
-     * @param owner, not null
+     * @param position spawn position, not null
+     * @param velocity initial velocity, not null
+     * @param name sprite to show
+     * @param owner owner, not null
      */
 	public Projectile(Vector position, Vector velocity, String name, Actor owner) {
 		if (position == null || velocity == null || owner == null)

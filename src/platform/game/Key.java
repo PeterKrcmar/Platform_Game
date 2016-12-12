@@ -12,12 +12,12 @@ public class Key extends Actor implements Signal{
 	
 	/**
      * Create a new Key.
-     * @param first coordinate of spawn
-     * @param second coordinate of spawn
-     * @param color (blue, red, yellow)
+     * @param x first coordinate of spawn
+     * @param y second coordinate of spawn
+     * @param color color of the key, (blue, green, red, yellow)
      */
 	public Key(double x, double y, String color) {
-		assert(color == "blue" || color == "red" || color == "yellow");
+		assert(color == "blue" || color == "red" || color == "yellow" || color == "green");
 		zone = new Box(new Vector(x,y),size,size);
 		sprite = getSprite("key." + color);
 		priority = 50;
@@ -28,7 +28,7 @@ public class Key extends Actor implements Signal{
 	}
 	
 	public void interact(Actor other) {
-		if (other.getPriority() == 42 && getBox().isColliding(other.getBox())) {
+		if (other instanceof Player && getBox().isColliding(other.getBox())) {
 			taken = true;
 			getWorld().unregister(this);
 		}

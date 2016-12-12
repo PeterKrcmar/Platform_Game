@@ -14,11 +14,11 @@ public class Terrain extends Block{
 	
 	/**
      * Create a new Terrain.
-     * @param first coordinate of first block
-     * @param second coordinate of first block
-     * @param width, greater than 0
-     * @param height, greater than 0
-     * @param type of terrain (grass,snow,castle)
+     * @param x first coordinate of first block
+     * @param y second coordinate of first block
+     * @param width width of terrain, greater than 0
+     * @param height height of terrain, greater than 0
+     * @param name type of terrain, (grass,snow,castle)
      */
 	public Terrain(double x, double y, double width, double height, String name) {
 		super(new Box(new Vector(x+(width-1)/2,y+(height-1)/2),width,height),name);

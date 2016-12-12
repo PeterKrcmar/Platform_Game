@@ -63,7 +63,7 @@ public class Lvl01 extends Level {
         
         // Register Hidden Blocks
         world.register(new HiddenBlock(5,6,2,1,"stone.5",lever));
-        world.register(new HiddenBlock(2,8,2,1,"stone.5",lever));
+        world.register(new HiddenBlock(2.5,8,2,1,"stone.5",lever));
         world.register(new HiddenBlock(0,10,2,1,"stone.5",lever));
         
         // Register Exit

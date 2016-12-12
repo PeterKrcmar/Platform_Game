@@ -10,9 +10,9 @@ public class Fireball extends Projectile{
 	
 	/**
      * Create a new Fireball.
-     * @param spawn position, not null
-     * @param velocity, not null
-     * @param owner, not null
+     * @param position spawn position, not null
+     * @param velocity initial velocity, not null
+     * @param owner owner, not null
      */
 	public Fireball(Vector position, Vector velocity, Actor owner) {
 		super(position,velocity,"fireball",owner);
